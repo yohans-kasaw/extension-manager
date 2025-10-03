@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
-import { useExtensionsStore } from './lib/store'
+import { useExtensionsStore, useThemeStore } from '@/lib/store'
+import logoWhite from '@/assets/images/logo-white.svg'
+import logo from '@/assets/images/logo-white.svg'
 import { Button } from '@/components/ui/button'
-import { Switch } from './components/ui/switch'
+import { Switch } from '@/components/ui/switch'
 import {
     Card,
     CardFooter,
@@ -10,6 +12,7 @@ import {
     CardDescription,
     CardHeader,
 } from '@/components/ui/card'
+import { MoonIcon, SunIcon } from 'lucide-react'
 
 type activeFilter = 'all' | 'active' | 'inactive'
 
@@ -17,6 +20,8 @@ function App() {
     // eslint-disable-next-line
     const { extensions, fetchExtensions, updateExtension, removeExtension } =
         useExtensionsStore()
+
+    const { theme, toggleTheme } = useThemeStore()
 
     const [currentActiveFilter, setCurrentActiveFilter] =
         useState<activeFilter>('all')
@@ -31,21 +36,46 @@ function App() {
         fetchExtensions()
     }, [fetchExtensions])
 
+    useEffect(() => {
+        document.documentElement.classList.remove('dark', 'light')
+        document.documentElement.classList.add(theme)
+    }, [theme])
+
     return (
-        <div className="w-3/4 m-auto max-w-[100rem]">
-            <div className="flex justify-between flex-wrap px-16 py-4">
-                <div className="text-amber-50">Extensions List</div>
+        <div className="w-3/4 m-auto max-w-[100rem] pt-4">
+            <Card className="mx-10 my-1 p-2">
+                <CardHeader className="flex justify-between m-1 p-1">
+                    <div>
+                        <img
+                            src={logoWhite}
+                            width="160rem"
+                            style={{ fill: 'white', stroke: 'none' }}
+                        />
+                    </div>
+                    <Button
+                        variant="outline"
+                        size="lg"
+                        className="rounded-xl"
+                        onClick={() => {
+                            toggleTheme()
+                        }}
+                    >
+                        {theme == 'light' ? <MoonIcon /> : <SunIcon />}
+                    </Button>
+                </CardHeader>
+            </Card>
+            <div className="flex  justify-between flex-wrap px-11 py-8">
+                <div className="text-amber-50 text-2xl font-bold">
+                    Extensions List
+                </div>
                 <div className="flex gap-2">
                     {['all', 'active', 'inactive'].map((v) => (
                         <div key={v}>
                             <Button
-                                className="rounded-4xl"
+                                variant="outline"
+                                className={`rounded-4xl ${currentActiveFilter == v ? 'active-button' : ''}`}
                                 onClick={() => {
                                     setCurrentActiveFilter(v as activeFilter)
-                                }}
-                                style={{
-                                    backgroundColor:
-                                        currentActiveFilter == v ? 'red' : '',
                                 }}
                             >
                                 {v.charAt(0).toUpperCase() + v.slice(1)}
@@ -70,11 +100,12 @@ function App() {
                         <CardFooter className="flex justify-between pt-4">
                             <Button
                                 className="rounded-4xl"
+                                variant="outline"
                                 onClick={() => {
                                     removeExtension(i)
                                 }}
                             >
-                                remove
+                                Remove
                             </Button>
                             <Switch
                                 checked={v.isActive}

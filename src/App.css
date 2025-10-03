@@ -1,4 +1,15 @@
+@import './index.css';
 #root{
     width: 100vw;
     height: 100vh;
+    background: linear-gradient(#09101f, #031740);
+}
+
+.active-button{
+    background-color: var(--primary);
+    color: black; 
+}
+
+.card-background{
+    background-color: var(--card-background);
 }

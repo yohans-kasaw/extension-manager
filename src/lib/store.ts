@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import data from '../../data.json'
+import { persist } from 'zustand/middleware'
 
 interface Extension {
     logo: string
@@ -16,6 +17,25 @@ interface ExtensionsStore {
     removeExtension(index: number): void
     fetchExtensions(): void
 }
+
+interface ThemeStore {
+    theme: 'dark' | 'light'
+    toggleTheme(): void
+}
+
+export const useThemeStore = create<ThemeStore>()(
+    persist(
+        (set) => ({
+            theme: 'dark',
+            toggleTheme: () => {
+                set(({ theme }) => ({
+                    theme: theme === 'light' ? 'dark' : 'light',
+                }))
+            },
+        }),
+        { name: 'theme' },
+    ),
+)
 
 export const useExtensionsStore = create<ExtensionsStore>((set) => ({
     extensions: [],
