@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { useExtensionsStore, useThemeStore } from '@/lib/store'
 import logoWhite from '@/assets/images/logo-white.svg'
-import logo from '@/assets/images/logo-white.svg'
+import logo from '@/assets/images/logo.svg'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import {
@@ -21,6 +21,7 @@ function App() {
     const { extensions, fetchExtensions, updateExtension, removeExtension } =
         useExtensionsStore()
 
+    // eslint-disable-next-line
     const { theme, toggleTheme } = useThemeStore()
 
     const [currentActiveFilter, setCurrentActiveFilter] =
@@ -42,12 +43,12 @@ function App() {
     }, [theme])
 
     return (
-        <div className="w-3/4 m-auto max-w-[100rem] pt-4">
-            <Card className="mx-10 my-1 p-2">
+        <div className={'w-3/4 m-auto max-w-[100rem] pt-4'}>
+            <Card className="my-1 p-2">
                 <CardHeader className="flex justify-between m-1 p-1">
                     <div>
                         <img
-                            src={logoWhite}
+                            src={theme == 'dark' ? logoWhite : logo}
                             width="160rem"
                             style={{ fill: 'white', stroke: 'none' }}
                         />
@@ -64,8 +65,8 @@ function App() {
                     </Button>
                 </CardHeader>
             </Card>
-            <div className="flex  justify-between flex-wrap px-11 py-8">
-                <div className="text-amber-50 text-2xl font-bold">
+            <div className="flex  justify-center gap-6 sm:justify-between flex-wrap py-8">
+                <div className="text-2xl font-bold">
                     Extensions List
                 </div>
                 <div className="flex gap-2">
@@ -73,7 +74,7 @@ function App() {
                         <div key={v}>
                             <Button
                                 variant="outline"
-                                className={`rounded-4xl ${currentActiveFilter == v ? 'active-button' : ''}`}
+                                className={`rounded-4xl ${currentActiveFilter === v ? (theme === 'light' ? 'active-button text-white' : 'active-button text-black') : ''}`}
                                 onClick={() => {
                                     setCurrentActiveFilter(v as activeFilter)
                                 }}
@@ -85,14 +86,14 @@ function App() {
                 </div>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredExtensions.map((v, i) => (
-                    <Card key={v.name} className="min-w-[30rem]">
+                    <Card key={v.name} className="min-w-[20rem]">
                         <CardHeader className="flex">
                             <img src={v.logo} width="50rem"></img>
                             <div className="pl-2">
-                                <CardTitle>{v.name}</CardTitle>
-                                <CardDescription className="pt-2">
+                                <CardTitle className='text-xl'>{v.name}</CardTitle>
+                                <CardDescription className="pt-2 text-lg">
                                     {v.description}
                                 </CardDescription>
                             </div>

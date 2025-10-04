@@ -2,12 +2,14 @@
 #root{
     width: 100vw;
     height: 100vh;
+}
+
+.gradient-background{
     background: linear-gradient(#09101f, #031740);
 }
 
 .active-button{
     background-color: var(--primary);
-    color: black; 
 }
 
 .card-background{
