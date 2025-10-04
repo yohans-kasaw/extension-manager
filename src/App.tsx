@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 import { useExtensionsStore, useThemeStore } from '@/lib/store'
-import logoWhite from '@/assets/images/logo-white.svg'
-import logo from '@/assets/images/logo.svg'
+import logoWhite from '/assets/images/logo-white.svg'
+import logo from '/assets/images/logo.svg'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import {
@@ -97,7 +97,7 @@ function App() {
                 {filteredExtensions.map((v) => (
                     <Card key={v.name} className="min-w-[20rem]">
                         <CardHeader className="flex">
-                            <img src={v.logo} width="50rem"></img>
+                            <img src={v.logo.slice(1)} width="50rem"></img>
                             <div className="pl-2">
                                 <CardTitle className="text-xl">
                                     {v.name}
