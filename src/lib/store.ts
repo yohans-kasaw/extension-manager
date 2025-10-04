@@ -13,8 +13,8 @@ interface ExtensionsStore {
     extensions: Extension[]
     loading: boolean
     error: string | null
-    updateExtension(index: number, update: Partial<Extension>): void
-    removeExtension(index: number): void
+    updateExtension(name: string, update: Partial<Extension>): void
+    removeExtension(name: string): void
     fetchExtensions(): void
 }
 
@@ -41,24 +41,22 @@ export const useExtensionsStore = create<ExtensionsStore>((set) => ({
     extensions: [],
     loading: false,
     error: null,
-    updateExtension: (index, update) => {
+    updateExtension: (name, update) => {
         set(({ extensions }) => {
-            if (index < 0 || index > extensions.length) {
-                return {}
+            return {
+                extensions: extensions.map((v) => {
+                    if (v.name == name) {
+                        return { ...v, ...update }
+                    }
+                    return v
+                }),
             }
-
-            extensions[index] = { ...extensions[index], ...update }
-            return { extensions }
         })
     },
-    removeExtension: (index) => {
-        set(({ extensions }) => {
-            if (index < 0 || index > extensions.length) {
-                return {}
-            }
 
-            extensions = extensions.filter((_, i) => i != index)
-            return { extensions }
+    removeExtension: (name) => {
+        set(({ extensions }) => {
+            return { extensions: extensions.filter((v) => v.name !== name) }
         })
     },
     fetchExtensions: () => {

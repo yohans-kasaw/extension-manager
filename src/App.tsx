@@ -87,7 +87,7 @@ function App() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                {filteredExtensions.map((v, i) => (
+                {filteredExtensions.map((v) => (
                     <Card key={v.name} className="min-w-[20rem]">
                         <CardHeader className="flex">
                             <img src={v.logo} width="50rem"></img>
@@ -103,7 +103,7 @@ function App() {
                                 className="rounded-4xl"
                                 variant="outline"
                                 onClick={() => {
-                                    removeExtension(i)
+                                    removeExtension(v.name)
                                 }}
                             >
                                 Remove
@@ -111,7 +111,10 @@ function App() {
                             <Switch
                                 checked={v.isActive}
                                 onCheckedChange={(isActive) => {
-                                    updateExtension(i, { isActive })
+                                    setTimeout(()=>{
+
+                                    updateExtension(v.name, { isActive })
+                                    },100)
                                 }}
                             />
                         </CardFooter>

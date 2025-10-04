@@ -1,17 +1,30 @@
 @import './index.css';
-#root{
+#root {
     width: 100vw;
     height: 100vh;
 }
 
-.gradient-background{
+.gradient-background {
     background: linear-gradient(#09101f, #031740);
 }
 
-.active-button{
+.active-button {
     background-color: var(--primary);
 }
 
-.card-background{
+.card-background {
     background-color: var(--card-background);
+}
+
+.noto-sans-bold {
+    font-family: 'Noto Sans', sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-variation-settings: 'wdth' 100;
+}
+
+.great-vibes-regular {
+  font-family: "Great Vibes", cursive;
+  font-weight: 400;
+  font-style: normal;
 }
