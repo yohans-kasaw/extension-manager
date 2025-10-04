@@ -6,6 +6,15 @@ import logo from '@/assets/images/logo.svg'
 import { Button } from '@/components/ui/button'
 import { Switch } from '@/components/ui/switch'
 import {
+    Dialog,
+    DialogClose,
+    DialogTrigger,
+    DialogContent,
+    DialogTitle,
+    DialogHeader,
+    DialogFooter,
+} from '@/components/ui/dialog'
+import {
     Card,
     CardFooter,
     CardTitle,
@@ -66,9 +75,7 @@ function App() {
                 </CardHeader>
             </Card>
             <div className="flex  justify-center gap-6 sm:justify-between flex-wrap py-8">
-                <div className="text-2xl font-bold">
-                    Extensions List
-                </div>
+                <div className="text-2xl font-bold">Extensions List</div>
                 <div className="flex gap-2">
                     {['all', 'active', 'inactive'].map((v) => (
                         <div key={v}>
@@ -92,29 +99,53 @@ function App() {
                         <CardHeader className="flex">
                             <img src={v.logo} width="50rem"></img>
                             <div className="pl-2">
-                                <CardTitle className='text-xl'>{v.name}</CardTitle>
+                                <CardTitle className="text-xl">
+                                    {v.name}
+                                </CardTitle>
                                 <CardDescription className="pt-2 text-lg">
                                     {v.description}
                                 </CardDescription>
                             </div>
                         </CardHeader>
                         <CardFooter className="flex justify-between pt-4">
-                            <Button
-                                className="rounded-4xl"
-                                variant="outline"
-                                onClick={() => {
-                                    removeExtension(v.name)
-                                }}
-                            >
-                                Remove
-                            </Button>
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button
+                                        className="rounded-4xl"
+                                        variant="outline"
+                                    >
+                                        Remove
+                                    </Button>
+                                </DialogTrigger>
+
+                                <DialogContent>
+                                    <DialogHeader>
+                                        <DialogTitle>Are you sure?</DialogTitle>
+                                    </DialogHeader>
+                                    <DialogFooter className="pt-16">
+                                        <DialogClose asChild>
+                                            <Button
+                                                className="rounded-4xl"
+                                                variant="outline"
+                                            >
+                                                Cancel
+                                            </Button>
+                                        </DialogClose>
+                                        <Button
+                                            className="rounded-4xl text-black"
+                                            onClick={() => {
+                                                removeExtension(v.name)
+                                            }}
+                                        >
+                                            Remove
+                                        </Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
                             <Switch
                                 checked={v.isActive}
                                 onCheckedChange={(isActive) => {
-                                    setTimeout(()=>{
-
                                     updateExtension(v.name, { isActive })
-                                    },100)
                                 }}
                             />
                         </CardFooter>
